@@ -1,0 +1,26 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: hf_dev
+  pool: 5
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_PW'] %>
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: hf_dev
+  pool: 5
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_PW'] %>
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: hf_test
+  pool: 5
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_PW'] %>
+# If you want to make tests faster, try this, and edit spec_helper.rb as well:
+# test: &test
+#   adapter: sqlite3
+#   encoding: utf8
+#   database: ":memory:"
