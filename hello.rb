@@ -32,6 +32,13 @@ class HelloWorld < Goliath::API
   end
 end
 
+class CreateUser < Goliath::API
+  def response(env)
+    user = User.create(first_name: params['first_name'])
+    [200, {}, user.first_name]
+  end
+end
+
 class PostHelloWorld < Goliath::API
   use Goliath::Rack::Params
 
@@ -44,4 +51,5 @@ end
 class RackRoutes < Goliath::API
   get  "/hello_world", HelloWorld
   post "/hello_world", PostHelloWorld
+  post "/users", CreateUser
 end
