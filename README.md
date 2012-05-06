@@ -1,3 +1,1 @@
-Testing.
-
-I left out `config/database.yml` just for lazy security.
+Attempting to get Goliath to work with Postgres and Heroku

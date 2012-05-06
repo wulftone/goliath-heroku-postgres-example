@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'erb'
 require 'goliath'
 require 'em-synchrony/activerecord'
 require 'yajl'
 
-db = YAML.load_file('config/database.yml')['development']
+db =YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
 ActiveRecord::Base.establish_connection(db)
 
 class User < ActiveRecord::Base
