@@ -5,21 +5,23 @@ require 'goliath'
 require 'em-synchrony/activerecord'
 require 'yajl'
 
-# db = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
 # require 'activerecord'
 require 'uri'
 
-db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
-
-ActiveRecord::Base.establish_connection(
-  :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
-  :host     => db.host,
-  :username => db.user,
-  :password => db.password,
-  :database => db.path[1..-1],
-  :encoding => 'utf8'
-)
-# ActiveRecord::Base.establish_connection(db)
+db = URI.parse(ENV['DATABASE_URL'] || 'http://localhost')
+if db.scheme == 'postgres'
+  ActiveRecord::Base.establish_connection(
+    :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
+    :host     => db.host,
+    :username => db.user,
+    :password => db.password,
+    :database => db.path[1..-1],
+    :encoding => 'utf8'
+  )
+else
+  db = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
+  ActiveRecord::Base.establish_connection(db)
+end
 
 class User < ActiveRecord::Base
 end
