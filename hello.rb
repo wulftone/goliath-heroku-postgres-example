@@ -7,7 +7,7 @@ require 'em-synchrony/activerecord'
 require 'yajl'
 
 db = URI.parse(ENV['DATABASE_URL'] || 'http://localhost')
-if db.scheme == 'postgres'
+if db.scheme == 'postgres' # This section makes Heroku work
   ActiveRecord::Base.establish_connection(
     :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
     :host     => db.host,
@@ -16,7 +16,7 @@ if db.scheme == 'postgres'
     :database => db.path[1..-1],
     :encoding => 'utf8'
   )
-else
+else # And this is for my local environment
   environment = ENV['DATABASE_URL'] ? 'production' : 'development'
   db = YAML.load(ERB.new(File.read('config/database.yml')).result)[environment]
   ActiveRecord::Base.establish_connection(db)
