@@ -8,20 +8,25 @@ require 'yajl'
 # require 'activerecord'
 require 'uri'
 
-db = URI.parse(ENV['DATABASE_URL'] || 'http://localhost')
-if db.scheme == 'postgres'
-  ActiveRecord::Base.establish_connection(
-    :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
-    :host     => db.host,
-    :username => db.user,
-    :password => db.password,
-    :database => db.path[1..-1],
-    :encoding => 'utf8'
-  )
-else
-  db = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
-  ActiveRecord::Base.establish_connection(db)
-end
+# db = URI.parse(ENV['DATABASE_URL'] || 'http://localhost')
+environment = ENV['DATABASE_URL'] ? 'production' : 'development'
+db = YAML.load(ERB.new(File.read('config/database.yml')).result)[environment]
+ActiveRecord::Base.establish_connection(db)
+
+
+# if db.scheme == 'postgres'
+#   ActiveRecord::Base.establish_connection(
+#     :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
+#     :host     => db.host,
+#     :username => db.user,
+#     :password => db.password,
+#     :database => db.path[1..-1],
+#     :encoding => 'utf8'
+#   )
+# else
+#   db = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
+#   ActiveRecord::Base.establish_connection(db)
+# end
 
 class User < ActiveRecord::Base
 end
