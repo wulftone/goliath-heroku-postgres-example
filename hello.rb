@@ -5,7 +5,7 @@ require 'goliath'
 require 'em-synchrony/activerecord'
 require 'yajl'
 
-db =YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
+db = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
 ActiveRecord::Base.establish_connection(db)
 
 class User < ActiveRecord::Base
@@ -13,7 +13,7 @@ end
 
 class HelloWorld < Goliath::API
   def response(env)
-    page = "<h1>#{Goliath.env} hello world!</h1><form action='hello_world' method='post'>Id:<input type='text' name='id' /><input type='submit' /></form>"
+    page = ERB.new(File.read('template.erb')).result
     [200, {}, page]
   end
 end
