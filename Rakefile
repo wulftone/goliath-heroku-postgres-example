@@ -1,3 +1,5 @@
+require 'active_record'
+
 desc 'create a database'
 task :create_db do
   ActiveRecord::Schema.define(:version => 0) do
